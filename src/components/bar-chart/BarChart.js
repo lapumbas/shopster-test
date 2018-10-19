@@ -27,34 +27,10 @@ class BarChart extends React.Component {
         return [...acc, ...item];
       }, []);
 
-    // console.log(wws);
-
     const x = d3
       .scaleLinear()
       .domain([0, wws.length])
       .range([0, w]);
-
-    const y1 = d3
-      .scaleLinear()
-      .domain([0, d3.max(wws)])
-      .range([h / 2, 0]);
-
-    const y2 = d3
-      .scaleLinear()
-      .domain([0, d3.max(wws)])
-      .range([h / 2, h]);
-
-    const line1 = d3
-      .line()
-      .x((d, i) => x(i))
-      .y(d => y1(d))
-      .curve(d3.curveMonotoneX);
-
-    const line2 = d3
-      .line()
-      .x((d, i) => x(i))
-      .y(d => y2(d))
-      .curve(d3.curveMonotoneX);
 
     const graph = d3
       .select('body')
@@ -63,19 +39,25 @@ class BarChart extends React.Component {
       .attr('height', h)
       .style('background-color', '#ccc');
 
-    graph
-      .append('path')
-      .attr('d', line1(wws))
-      .attr('stroke', 'green')
-      .attr('stroke-width', '2')
-      .attr('fill', 'none');
+    const yRanges = [[h / 2, 0], [h / 2, h]];
 
-    graph
-      .append('path')
-      .attr('d', line2(wws))
-      .attr('stroke', 'green')
-      .attr('stroke-width', '2')
-      .attr('fill', 'none');
+    yRanges.forEach(item => {
+      const y = d3
+        .scaleLinear()
+        .domain([0, d3.max(wws)])
+        .range(item);
+      const line = d3
+        .line()
+        .x((d, i) => x(i))
+        .y(d => y(d))
+        .curve(d3.curveMonotoneX);
+      graph
+        .append('path')
+        .attr('d', line(wws))
+        .attr('stroke', 'green')
+        .attr('stroke-width', '2')
+        .attr('fill', 'none');
+    });
   }
 
   render() {
