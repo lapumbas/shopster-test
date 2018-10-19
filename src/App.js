@@ -10,7 +10,7 @@ class App extends Component {
   }
   render() {
     return (
-      <div className="App">
+      <div>
         <BarChart data={this.state.data} w={this.state.width} h={this.state.height} />
       </div>
     );

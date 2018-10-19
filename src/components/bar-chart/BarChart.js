@@ -1,7 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import * as d3 from 'd3';
-import { withFauxDOM } from 'react-faux-dom';
 
 class BarChart extends React.Component {
   componentDidMount() {
